@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+	String loginId = (String)session.getAttribute("loginId");
+	if(loginId != null){
+		System.out.println("로그인 되어 있는 상태");
+		response.sendRedirect("loginSuccess.jsp");
+	}else
+		//loginId값이 null값이면(로그인된 상태라면) 아래 로그인 폼을 보여준다.
+	{
+
 	//1.요청에서 파라미터 가져오기
 	String userid = request.getParameter("userid");
 	String userpw = request.getParameter("userpw");
@@ -11,6 +19,8 @@
 		// - 아이디 기억하기 여부에 따라 쿠키를 생성하여 응답을 만들어줌.(1시간 동안만 아이디 기억유지)
 	if(userid.equals(userpw)){
 		System.out.println("로그인 성공!");
+		session.setAttribute("loginId",userid); //세션에 저장
+		
 		//아이디 기억하기 존재함.
 		if(remember !=null){
 			//remember에 userid정보를 넣어줌.
@@ -48,3 +58,4 @@
 <body>
 </body>
 </html>
+<% } %>
